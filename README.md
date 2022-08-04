@@ -3,15 +3,6 @@
 
 ## Requirements
 
-- `React.js 18`
-- `Node.js ^16.10 || 18`. Need to change your version?
-  - [Window](https://github.com/coreybutler/nvm-windows)
-  - [Mac](https://github.com/tj/n)
-- Firebase (optional, but strongly encouraged for your database, auth, hosting, and storage needs).
-- Hosting: if not Firebase, it must be an pre-approved PaaS
-  - Vercel
-  - Heroku
-  - Railway
 
 ## Getting Started
 
@@ -75,7 +66,7 @@ Add meeting to google calendar
 ## Sprint Progress
 
 ### Sprint1
-[ ] Deploy app to production server. I suggest Firebase.
+[V] Deploy app to production server. I suggest Firebase.
 App homepage must be publicly accessible.
 
 [ ] Whatever you chose as your technical component must be 10% complete.
@@ -103,7 +94,7 @@ Integrate with API,
 
 ### Public URL
 
-[Replace me with the link to your app's URL](https://www.google.com/)
+[Timezone Planner](https://timezone-planner.web.app/)
 
 ### Description
 
