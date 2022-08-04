@@ -59,9 +59,45 @@ We are using "yarn" instead of "npm" in this project.
 *** WHEN YOU ARE UP AND RUNNING, YOU MAY DELETE EVERYTHING ABOVE -EXCEPT- THE VERY TOP LINE. ***
 -->
 
+## Final Deliverable for v1
+Meeting planner for people with different timezones. 
+-Features
+Sign in with google
+Request location
+Set name and timezone
+Add availability on calendar
+Invite other people
+Show mutual availabities on calendar
+Set meeting time
+Add meeting to google calendar
+
+
 ## Sprint Progress
 
-Go to the [milestones tab](../../milestone/1) to track your progress.
+### Sprint1
+[ ] Deploy app to production server. I suggest Firebase.
+App homepage must be publicly accessible.
+
+[ ] Whatever you chose as your technical component must be 10% complete.
+
+
+### Sprint2
+
+[ ] Begin 1 advanced task
+ex)
+Hook up database
+Implement redux
+Integrate with API
+
+[ ] Whatever you chose as your technical component must be 40% complete.
+
+### Sprint3
+[ ] Complete 1 advanced task
+
+[ ] Whatever you chose as your technical component must be 100% complete.
+
+[ ] Deploy app after PR merge
+
 
 ## Project Overview
 
@@ -71,12 +107,9 @@ Go to the [milestones tab](../../milestone/1) to track your progress.
 
 ### Description
 
-**Required:** update [your repository](https://stackoverflow.com/questions/7757751/how-do-you-change-a-repository-description-on-github) with a short description of your project.
 
 ### Mockups
 
 *View `README.md` to see how to replace me with mockups.*
 
-| ![Benjamin Bannekat](/mockups/github-cat.png) | ![Benjamin Bannekat](/mockups/github-cat.png) |
-| -------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| ![Benjamin Bannekat](/mockups/github-cat.png) | ![Benjamin Bannekat](/mockups/github-cat.png) |
+ ![mockup](/mockups/mockup.jpg) 
