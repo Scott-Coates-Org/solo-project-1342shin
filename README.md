@@ -85,9 +85,9 @@ App homepage must be publicly accessible.
 
 [ ] Begin 1 advanced task
 ex)
-Hook up database
-Implement redux
-Integrate with API
+Hook up database,
+Implement redux,
+Integrate with API,
 
 [ ] Whatever you chose as your technical component must be 40% complete.
 
