@@ -52,15 +52,16 @@ We are using "yarn" instead of "npm" in this project.
 
 ## Final Deliverable for v1
 Meeting planner for people with different timezones. 
--Features
-Sign in with google
-Request location
-Set name and timezone
-Add availability on calendar
-Invite other people
-Show mutual availabities on calendar
-Set meeting time
-Add meeting to google calendar
+
+### Features
+1. Sign in with google
+2. Request location
+3. Set name and timezone
+4. Add availability on calendar
+5. Invite other people
+6. Show mutual availabities on calendar
+7. Set meeting time
+8. Add meeting to google calendar
 
 
 ## Sprint Progress
