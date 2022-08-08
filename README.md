@@ -71,6 +71,9 @@ Meeting planner for people with different timezones.
 App homepage must be publicly accessible.
 
 [ ] Whatever you chose as your technical component must be 10% complete.
+-implement calendar with timeline selection.
+
+
 
 
 ### Sprint2
@@ -82,11 +85,22 @@ Implement redux,
 Integrate with API,
 
 [ ] Whatever you chose as your technical component must be 40% complete.
+-implement redux store for each user
+1. Sign in with google
+2. Request location
+3. Set name and timezone
+4. Add availability on calendar
+5. Invite other people
+6. Show mutual availabities on calendar
+7. Set meeting time
+-write store data to firebase
 
 ### Sprint3
 [ ] Complete 1 advanced task
 
 [ ] Whatever you chose as your technical component must be 100% complete.
+8. Add meeting to google calendar
+   - finish CSS
 
 [ ] Deploy app after PR merge
 
