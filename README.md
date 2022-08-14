@@ -71,6 +71,7 @@ Meeting planner for people with different timezones.
 App homepage must be publicly accessible.
 
 [ ] Whatever you chose as your technical component must be 10% complete.
+
 -implement calendar with timeline selection.
 
 
@@ -85,7 +86,7 @@ Implement redux,
 Integrate with API,
 
 [ ] Whatever you chose as your technical component must be 40% complete.
--implement redux store for each user
+- implement redux store for each user
 1. Sign in with google
 2. Request location
 3. Set name and timezone
