@@ -4,6 +4,7 @@ const initialState = {
 	user: '',
 	email: '',
 	accessToken: '',
+	isLogged:false,
 }
 
 export const authSlice = createSlice({
@@ -14,13 +15,15 @@ export const authSlice = createSlice({
 			state.user = action.payload.displayName
 			state.email = action.payload.email
 			state.accessToken = action.payload.accessToken
-			console.log(state.user)
+			state.isLogged=true
 		},
 		logout: (state) => {
+			console.log(`${state.user} logged out`)
 			state.user = ''
 			state.email = ''
 			state.accessToken = ''
-			console.log(state.user)
+			state.isLogged=false
+
 		},
 	},
 })
@@ -29,3 +32,5 @@ export const authSlice = createSlice({
 export const { login, logout } = authSlice.actions
 
 export default authSlice.reducer
+
+export const selectAuth = (state) => state.auth

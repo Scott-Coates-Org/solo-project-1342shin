@@ -20,6 +20,7 @@ const Login = () => {
 					accessToken: user.user.accessToken,
 				}),
 			)
+			console.log(user)
 		}
 	}, [user, dispatch])
 
