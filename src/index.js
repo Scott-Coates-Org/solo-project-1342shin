@@ -16,7 +16,7 @@ root.render(
         <Routes>
           <Route path="/" element={<App />} />
           <Route path=":eventId" element={<Calendar />} />
-
+          
           <Route path="invoices" element={<Invoices />}>
             <Route path=":invoiceId" element={<Invoice />} />
           </Route>

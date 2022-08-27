@@ -7,7 +7,7 @@ import { login, logout } from '../../redux/authSlice'
 
 import styles from './login.module.css'
 
-const Login = () => {
+const Login = (props) => {
 	const [signInWithGoogle, user] = useSignInWithGoogle(auth)
 	const dispatch = useDispatch()
 
@@ -31,13 +31,14 @@ const Login = () => {
 
 	return (
 		<div className={styles.container}>
-			<button onClick={() => signInWithGoogle()} className={styles.button}>
-				<img src="/images/googlelogo.png" alt="Google Logo" />
-				Continue with Google
-			</button>
+			{props.userProp?
+			
 			<button onClick={logoutHandler} className={styles.button}>
 				Sign Out
-			</button>
+			</button>:<button onClick={() => signInWithGoogle()} className={styles.button}>
+				<img src="/images/googlelogo.png" alt="Google Logo" />
+				Continue with Google
+			</button>}
 		</div>
 	)
 }

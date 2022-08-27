@@ -15,14 +15,12 @@ export const authSlice = createSlice({
 			state.user = action.payload.displayName
 			state.email = action.payload.email
 			state.accessToken = action.payload.accessToken
-			state.isLogged=true
 		},
 		logout: (state) => {
 			console.log(`${state.user} logged out`)
 			state.user = ''
 			state.email = ''
 			state.accessToken = ''
-			state.isLogged=false
 
 		},
 	},
