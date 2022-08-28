@@ -1,65 +1,27 @@
 import "./App.css";
 import Login from "./components/login/Login";
-import { Calendar } from "./components/Calendar";
-import { Outlet, Link } from "react-router-dom";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import {  Link } from "react-router-dom";
+import { signOut,getAuth, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddIcon from "@mui/icons-material/Add";
 import { login, logout } from "./redux/authSlice";
 import { db } from "./firebase/client";
-
-import { signOut } from "firebase/auth";
-import { nanoid } from "nanoid";
-import { auth } from "./firebase/client";
 import { IconButton, TextField } from "@mui/material";
-import { doc, setDoc } from "firebase/firestore";
+import { collection, query } from "firebase/firestore";
+import { loadEventsFromFirebase } from "./loadEventsFromFirebase";
+import { addEventToUser } from "./addEventToUser";
+import { addEventInfo } from "./addEventInfo";
+import { nanoid } from "nanoid";
 
-import { collection, query, where, getDocs } from "firebase/firestore";
-
-const loadEventsFromFirebase = async (q,setEvents,setEventsLoaded) => {
-  setEvents([])
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
-    setEvents((prevState)=>[...prevState, doc.data()])
-    console.log(doc.id, " => ", doc.data());
-  });
-  setEventsLoaded(true)
-
-};
-
-const addDocToFirebase = async (eventName, user) => {
-  const randomId=nanoid()
-  // Add a new document in collection "cities"
-  await setDoc(doc(db, user.name, randomId), {
-    eventName: eventName,
-    eventId: randomId,
-    ownerId: user.uid,
-    ownerName: user.name,
-    items: {
-      //guest example
-      "jone doe": {
-        guestName: "john moe",
-        guestId: "32f3fc9",
-        time: {},
-      },
-    },
-  });
-};
 
 function App() {
   const [user, setUser] = useState(null);
   const [newEventName, setNewEventName] = useState("");
   const [events, setEvents] = useState([]);
-  const [eventsLoaded,setEventsLoaded]=useState(false)
+  const [newEventId, setNewEventId] = useState('');
+  const [eventsLoaded, setEventsLoaded] = useState(false);
   const dispatch = useDispatch();
-
-  // const events = [
-  //   { id: 1, number: 1 },
-  //   { id: "nFzpEu1lHcWLym95ZKo5", number: 2 },
-  //   { id: "Sx5uTvRxJeBPfSEAeajB", number: 3 },
-  // ];
   const auth = getAuth();
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -68,17 +30,16 @@ function App() {
         // https://firebase.google.com/docs/reference/js/firebase.User
         const uid = user.uid;
         setUser({ name: user.displayName, email: user.email, uid: user.uid });
-        console.log( user.displayName);
+        console.log(user.displayName);
         const q = query(collection(db, user.displayName));
-        loadEventsFromFirebase(q,setEvents,setEventsLoaded);
+        loadEventsFromFirebase(q, setEvents, setEventsLoaded);
         dispatch(
           login({
             displayName: user.displayName,
             email: user.email,
             accessToken: user.accessToken,
-          }),
-        )
-
+          })
+        );
       } else {
         console.log("no user detected");
         signOut(auth);
@@ -127,10 +88,14 @@ function App() {
             <IconButton
               aria-label="add"
               onClick={() => {
-                addDocToFirebase(newEventName, user);
+                const randomId=nanoid()
+               setNewEventId(randomId)
+
+                addEventToUser(newEventName, user, randomId);
+                addEventInfo(newEventName, user, randomId);
                 const q = query(collection(db, user.name));
-                loadEventsFromFirebase(q,setEvents,setEventsLoaded);
-                setNewEventName('')
+                loadEventsFromFirebase(q, setEvents, setEventsLoaded);
+                setNewEventName("");
                 console.log(newEventName);
               }}
             >

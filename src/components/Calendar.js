@@ -1,7 +1,6 @@
 import Timeline from "react-calendar-timeline";
 // make sure you include the timeline stylesheet or the timeline will not be styled
 import "react-calendar-timeline/lib/Timeline.css";
-
 //import { Timeline } from "vis-timeline/standalone";
 import { TimePicker } from "./TimePicker";
 import addHours from "date-fns/addHours";
@@ -16,9 +15,8 @@ import { db } from "../firebase/client";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { login, logout, selectAuth } from "../redux/authSlice";
-
 import { signOut } from "firebase/auth";
-import {  onSnapshot } from "firebase/firestore";
+import { onSnapshot } from "firebase/firestore";
 
 //make redux store with username, event name, event id
 
@@ -26,24 +24,23 @@ export const Calendar = () => {
   const groups = useSelector(selectGroups);
   const items = useSelector(selectItems);
   const [status, setStatus] = useState("loading");
-  const [eventData, setEventData]=useState({})
-
+  const [eventData, setEventData] = useState({});
   const dispatch = useDispatch();
-
   const authState = useSelector(selectAuth);
-
   let params = useParams();
   const eventId = params.eventId;
-
   const auth = getAuth();
+
   const checkDocument = async () => {
     try {
-      const docRef = doc(db, authState.user, eventId);
+      const docRef = doc(db, 'events', eventId);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
         console.log("Document data:", docSnap.data());
-        setStatus("ok");
+        setEventData(docSnap.data())
+        console.log(eventData)
+         setStatus("ok");
       } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
@@ -54,12 +51,23 @@ export const Calendar = () => {
     }
   };
   useEffect(() => {
-    console.log(authState);
+    checkDocument();
+
+    //litsen for update
+    const unsub = onSnapshot(doc(db, 'events', eventId), (doc) => {
+      console.log("Current data: ", doc.data());
+      setEventData(doc.data());
+      console.log(eventData)
+      
+    });
+
+   
     onAuthStateChanged(auth, (user) => {
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
         const uid = user.uid;
+        console.log(uid);
         dispatch(
           login({
             displayName: user.displayName,
@@ -74,13 +82,6 @@ export const Calendar = () => {
         dispatch(logout());
       }
     });
-
-    checkDocument();
-    const unsub = onSnapshot(doc(db, authState.user, eventId), (doc) => {
-      console.log("Current data: ", doc.data());
-      setEventData(doc.data())
-  });
-  
   }, [auth]);
 
   if (status == "loading")
@@ -95,8 +96,8 @@ export const Calendar = () => {
       <div>
         <Link to="/">HOME</Link>
         <Timeline
-          groups={groups}
-          items={items}
+          groups={eventData.eventData.groups}
+          items={eventData.eventData.items}
           defaultTimeStart={subHours(new Date(), 12)}
           defaultTimeEnd={addHours(new Date(), 12)}
         />
