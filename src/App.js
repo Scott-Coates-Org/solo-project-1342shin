@@ -15,6 +15,9 @@ import { addEventInfo } from "./addEventInfo";
 import { nanoid } from "nanoid";
 
 
+import Timeline from 'react-calendar-timeline'
+// make sure you include the timeline stylesheet or the timeline will not be styled
+
 function App() {
   const [user, setUser] = useState(null);
   const [newEventName, setNewEventName] = useState("");
@@ -44,6 +47,7 @@ function App() {
         console.log("no user detected");
         signOut(auth);
         setUser(null);
+        setEvents([])
         dispatch(logout());
       }
     });
@@ -51,14 +55,15 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Landing page</h1>
+     {/**  <h1>Landing page</h1>
       <nav>
         <Link to="/invoices">Invoices</Link> |{" "}
         <Link to="/expenses">Expenses</Link>
-      </nav>
-
+      </nav>*/}
+      <h1>This is meeting planner application.</h1>
+      <h1>Start adding a new event to share with other people</h1><br/>
       {user ? (
-        <h1>Hi, {user.name} this is your event list</h1>
+        <h1>"{user.name}" this is your event list</h1>
       ) : (
         <h1>sign in to continue</h1>
       )}
@@ -85,7 +90,9 @@ function App() {
               value={newEventName}
               onChange={(e) => setNewEventName(e.target.value)}
             />
+
             <IconButton
+              disabled={!newEventName}
               aria-label="add"
               onClick={() => {
                 const randomId=nanoid()
@@ -104,6 +111,7 @@ function App() {
           </div>
         )}
       </nav>
+      
     </div>
   );
 }

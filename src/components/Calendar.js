@@ -8,23 +8,34 @@ import subHours from "date-fns/subHours";
 import { selectGroups } from "../redux/groupsSlice";
 import { selectItems } from "../redux/itemsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { AddItem } from "./AddItem";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, collection, addDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase/client";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { login, logout, selectAuth } from "../redux/authSlice";
 import { signOut } from "firebase/auth";
 import { onSnapshot } from "firebase/firestore";
+import moment from "moment";
 
-//make redux store with username, event name, event id
+import React from "react";
+import {} from "firebase/firestore";
+import { nanoid } from "nanoid";
+
+import "react-calendar-timeline/lib/Timeline.css";
+import { addTimeItem } from "../addTimeItem";
+import Login from "./login/Login";
 
 export const Calendar = () => {
-  const groups = useSelector(selectGroups);
-  const items = useSelector(selectItems);
+  //const groups = useSelector(selectGroups);
+  // const items = useSelector(selectItems);
   const [status, setStatus] = useState("loading");
   const [eventData, setEventData] = useState({});
+  const [momentItems, setMomentItems] = useState([]);
+  const [startTime, setStartTime] = React.useState(moment());
+  const [endTime, setEndTime] = React.useState(moment());
+  const [user, setUser] = useState(null);
+
   const dispatch = useDispatch();
   const authState = useSelector(selectAuth);
   let params = useParams();
@@ -33,14 +44,28 @@ export const Calendar = () => {
 
   const checkDocument = async () => {
     try {
-      const docRef = doc(db, 'events', eventId);
+      const docRef = doc(db, "events", eventId);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
         console.log("Document data:", docSnap.data());
-        setEventData(docSnap.data())
-        console.log(eventData)
-         setStatus("ok");
+        if(docSnap.data().eventData.items){
+          let momentItems = docSnap.data().eventData.items.map((item) => {
+            let startTime = moment(item.start_time, "MMMM Do YYYY, h:mm:ss a");
+            let endTime = moment(item.end_time, "MMMM Do YYYY, h:mm:ss a");
+            return {
+              id: item.id,
+              group: item.group,
+              start_time: startTime,
+              end_time: endTime,
+            };
+          });
+          setMomentItems(momentItems);
+        }
+        
+        setEventData(docSnap.data());
+        console.log(eventData);
+        setStatus("ok");
       } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
@@ -53,21 +78,13 @@ export const Calendar = () => {
   useEffect(() => {
     checkDocument();
 
-    //litsen for update
-    const unsub = onSnapshot(doc(db, 'events', eventId), (doc) => {
-      console.log("Current data: ", doc.data());
-      setEventData(doc.data());
-      console.log(eventData)
-      
-    });
-
-   
     onAuthStateChanged(auth, (user) => {
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
-        const uid = user.uid;
-        console.log(uid);
+   
+        setUser({ name: user.displayName, email: user.email, uid: user.uid });
+
         dispatch(
           login({
             displayName: user.displayName,
@@ -78,9 +95,17 @@ export const Calendar = () => {
       } else {
         console.log("no user detected");
         signOut(auth);
-        //setUser(null);
+        setUser(null);
         dispatch(logout());
       }
+    });
+    console.log(eventData);
+
+    //litsen for update
+    const unsub = onSnapshot(doc(db, "events", eventId), (doc) => {
+      console.log(doc.data());
+      setEventData(doc.data());
+      console.log(eventData);
     });
   }, [auth]);
 
@@ -95,13 +120,30 @@ export const Calendar = () => {
     return (
       <div>
         <Link to="/">HOME</Link>
+        <Login userProp={user} />
+        {user&&<h1>Hi "{user.name}"</h1>}
+        <h1>Event Name: {eventData.eventName}</h1>
+        <h1>Event Holder: {eventData.ownerName}</h1>
         <Timeline
           groups={eventData.eventData.groups}
-          items={eventData.eventData.items}
-          defaultTimeStart={subHours(new Date(), 12)}
-          defaultTimeEnd={addHours(new Date(), 12)}
+          items={momentItems}
+          defaultTimeStart={moment().add(-12, "hour")}
+          defaultTimeEnd={moment().add(12, "hour")}
         />
-        <AddItem />
+        <div>
+          <div>
+            <TimePicker label="from" value={startTime} setTime={setStartTime} />
+            <TimePicker label="to" value={endTime} setTime={setEndTime} />
+            <button
+              disabled={!user}
+              onClick={() =>
+                addTimeItem(eventData.eventId, user.uid, startTime.format('MMMM Do YYYY, h:mm:ss a'), endTime.format('MMMM Do YYYY, h:mm:ss a'))
+              }
+            >
+              Add
+            </button>
+          </div>
+        </div>
       </div>
     );
   else
