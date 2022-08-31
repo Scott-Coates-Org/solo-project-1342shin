@@ -1,10 +1,6 @@
 import { nanoid } from "@reduxjs/toolkit";
 import {
   doc,
-  getDoc,
-  collection,
-  addDoc,
-  setDoc,
   updateDoc,
   arrayUnion,
   arrayRemove,

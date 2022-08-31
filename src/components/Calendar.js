@@ -3,10 +3,6 @@ import Timeline from "react-calendar-timeline";
 import "react-calendar-timeline/lib/Timeline.css";
 //import { Timeline } from "vis-timeline/standalone";
 import { TimePicker } from "./TimePicker";
-import addHours from "date-fns/addHours";
-import subHours from "date-fns/subHours";
-import { selectGroups } from "../redux/groupsSlice";
-import { selectItems } from "../redux/itemsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, collection, addDoc, setDoc } from "firebase/firestore";
@@ -17,14 +13,10 @@ import { login, logout, selectAuth } from "../redux/authSlice";
 import { signOut } from "firebase/auth";
 import { onSnapshot } from "firebase/firestore";
 import moment from "moment";
-
 import React from "react";
-import {} from "firebase/firestore";
-import { nanoid } from "nanoid";
-
-import "react-calendar-timeline/lib/Timeline.css";
 import { addTimeItem } from "../addTimeItem";
 import Login from "./login/Login";
+import { addGroup } from "../addGroup";
 
 export const Calendar = () => {
   //const groups = useSelector(selectGroups);
@@ -49,7 +41,8 @@ export const Calendar = () => {
 
       if (docSnap.exists()) {
         console.log("Document data:", docSnap.data());
-        if(docSnap.data().eventData.items){
+        console.log("Document data:", docSnap.data());
+        if (docSnap.data().eventData.items.length) {
           let momentItems = docSnap.data().eventData.items.map((item) => {
             let startTime = moment(item.start_time, "MMMM Do YYYY, h:mm:ss a");
             let endTime = moment(item.end_time, "MMMM Do YYYY, h:mm:ss a");
@@ -62,7 +55,7 @@ export const Calendar = () => {
           });
           setMomentItems(momentItems);
         }
-        
+
         setEventData(docSnap.data());
         console.log(eventData);
         setStatus("ok");
@@ -82,7 +75,7 @@ export const Calendar = () => {
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
-   
+
         setUser({ name: user.displayName, email: user.email, uid: user.uid });
 
         dispatch(
@@ -92,6 +85,8 @@ export const Calendar = () => {
             accessToken: user.accessToken,
           })
         );
+
+       // addGroup(eventId,user)
       } else {
         console.log("no user detected");
         signOut(auth);
@@ -121,7 +116,7 @@ export const Calendar = () => {
       <div>
         <Link to="/">HOME</Link>
         <Login userProp={user} />
-        {user&&<h1>Hi "{user.name}"</h1>}
+        {user && <h1>Hi "{user.name}"</h1>}
         <h1>Event Name: {eventData.eventName}</h1>
         <h1>Event Holder: {eventData.ownerName}</h1>
         <Timeline
@@ -136,8 +131,14 @@ export const Calendar = () => {
             <TimePicker label="to" value={endTime} setTime={setEndTime} />
             <button
               disabled={!user}
-              onClick={() =>
-                addTimeItem(eventData.eventId, user.uid, startTime.format('MMMM Do YYYY, h:mm:ss a'), endTime.format('MMMM Do YYYY, h:mm:ss a'))
+              onClick={() =>{
+                addTimeItem(
+                  eventData.eventId,
+                  user.uid,
+                  startTime.format("MMMM Do YYYY, h:mm:ss a"),
+                  endTime.format("MMMM Do YYYY, h:mm:ss a")
+                )
+                addGroup(eventId,user)}
               }
             >
               Add
