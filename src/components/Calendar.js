@@ -17,6 +17,9 @@ import React from "react";
 import { addTimeItem } from "../addTimeItem";
 import Login from "./login/Login";
 import { addGroup } from "../addGroup";
+import { ConvertToMoment } from "../ConvertToMoment";
+
+
 
 export const Calendar = () => {
   //const groups = useSelector(selectGroups);
@@ -41,20 +44,11 @@ export const Calendar = () => {
 
       if (docSnap.exists()) {
         console.log("Document data:", docSnap.data());
-        console.log("Document data:", docSnap.data());
-        if (docSnap.data().eventData.items.length) {
-          let momentItems = docSnap.data().eventData.items.map((item) => {
-            let startTime = moment(item.start_time, "MMMM Do YYYY, h:mm:ss a");
-            let endTime = moment(item.end_time, "MMMM Do YYYY, h:mm:ss a");
-            return {
-              id: item.id,
-              group: item.group,
-              start_time: startTime,
-              end_time: endTime,
-            };
-          });
+        let items=docSnap.data().eventData.items
+        if (items.length) {
+          let momentItems=ConvertToMoment(items)
           setMomentItems(momentItems);
-        }
+      }
 
         setEventData(docSnap.data());
         console.log(eventData);
@@ -98,9 +92,12 @@ export const Calendar = () => {
 
     //litsen for update
     const unsub = onSnapshot(doc(db, "events", eventId), (doc) => {
-      console.log(doc.data());
+      let items=doc.data().eventData.items
+      if (items.length) {
+        let momentItems=ConvertToMoment(items)
+        setMomentItems(momentItems);
+      }
       setEventData(doc.data());
-      console.log(eventData);
     });
   }, [auth]);
 

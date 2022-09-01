@@ -11,7 +11,7 @@ export const addEventInfo = async (eventName, user, newEventId) => {
       ownerName: user.name,
       eventData: {
         groups: [{ id: user.uid, title: user.name },],
-        items:[{hi:'hi'}]
+        items:[]
       }
     });
 
