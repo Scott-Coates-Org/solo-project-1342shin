@@ -17,9 +17,8 @@ import React from "react";
 import { addTimeItem } from "../addTimeItem";
 import Login from "./login/Login";
 import { addGroup } from "../addGroup";
-import { ConvertToMoment } from "../ConvertToMoment";
-
-
+import { ConvertToMoment } from "../convertToMoment";
+import { addOnItemSelect } from "../addOnItemSelect";
 
 export const Calendar = () => {
   //const groups = useSelector(selectGroups);
@@ -30,6 +29,7 @@ export const Calendar = () => {
   const [startTime, setStartTime] = React.useState(moment());
   const [endTime, setEndTime] = React.useState(moment());
   const [user, setUser] = useState(null);
+  const [timezone, setTimezone] = useState('');
 
   const dispatch = useDispatch();
   const authState = useSelector(selectAuth);
@@ -44,11 +44,12 @@ export const Calendar = () => {
 
       if (docSnap.exists()) {
         console.log("Document data:", docSnap.data());
-        let items=docSnap.data().eventData.items
+        let items = docSnap.data().eventData.items;
         if (items.length) {
-          let momentItems=ConvertToMoment(items)
+          let momentItems = ConvertToMoment(items);
+          addOnItemSelect(momentItems)
           setMomentItems(momentItems);
-      }
+        }
 
         setEventData(docSnap.data());
         console.log(eventData);
@@ -64,6 +65,7 @@ export const Calendar = () => {
   };
   useEffect(() => {
     checkDocument();
+    setTimezone( Intl.DateTimeFormat().resolvedOptions().timeZone)
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -80,7 +82,7 @@ export const Calendar = () => {
           })
         );
 
-       // addGroup(eventId,user)
+        // addGroup(eventId,user)
       } else {
         console.log("no user detected");
         signOut(auth);
@@ -92,9 +94,12 @@ export const Calendar = () => {
 
     //litsen for update
     const unsub = onSnapshot(doc(db, "events", eventId), (doc) => {
-      let items=doc.data().eventData.items
+      let items = doc.data().eventData.items;
+      console.log(items)
       if (items.length) {
-        let momentItems=ConvertToMoment(items)
+        let momentItems = ConvertToMoment(items);
+        addOnItemSelect(momentItems)
+        console.log(momentItems)
         setMomentItems(momentItems);
       }
       setEventData(doc.data());
@@ -113,9 +118,10 @@ export const Calendar = () => {
       <div>
         <Link to="/">HOME</Link>
         <Login userProp={user} />
-        {user && <h1>Hi "{user.name}"</h1>}
         <h1>Event Name: {eventData.eventName}</h1>
-        <h1>Event Holder: {eventData.ownerName}</h1>
+        <h1>Event Holder: {eventData.ownerName}</h1><br/>
+        {user && <h1>Hi "{user.name}"</h1>}
+    <h1>your Timezone : {timezone} </h1>  
         <Timeline
           groups={eventData.eventData.groups}
           items={momentItems}
@@ -128,15 +134,15 @@ export const Calendar = () => {
             <TimePicker label="to" value={endTime} setTime={setEndTime} />
             <button
               disabled={!user}
-              onClick={() =>{
+              onClick={() => {
                 addTimeItem(
                   eventData.eventId,
                   user.uid,
-                  startTime.format("MMMM Do YYYY, h:mm:ss a"),
-                  endTime.format("MMMM Do YYYY, h:mm:ss a")
-                )
-                addGroup(eventId,user)}
-              }
+                  startTime.format("MMMM Do YYYY, h:mm:ss a Z"),
+                  endTime.format("MMMM Do YYYY, h:mm:ss a Z")
+                );
+                addGroup(eventId, user);
+              }}
             >
               Add
             </button>

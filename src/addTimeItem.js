@@ -20,6 +20,9 @@ export const addTimeItem = async (eventId, userId,startTime,endTime) => {
         group: userId,
         start_time: startTime,
         end_time: endTime,
+        itemProps:{
+          onItemSelect:null,
+        }
       }),
     });
     console.log("Document written with ID: ", eventDocRef);
