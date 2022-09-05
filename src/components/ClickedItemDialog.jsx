@@ -35,20 +35,16 @@ export function ClickedItemDialog(props) {
       <List sx={{ pt: 0 }}>
         <ListItem key={"start"}>
           <ListItemAvatar>
-            <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
-              <PersonIcon />
-            </Avatar>
+            From:
           </ListItemAvatar>
-          <ListItemText primary={itemInfo.start} />
+          <ListItemText primary={`${itemInfo.start} UTC`} />
         </ListItem>
 
         <ListItem key={"end"}>
           <ListItemAvatar>
-            <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
-              <PersonIcon />
-            </Avatar>
+            To:
           </ListItemAvatar>
-          <ListItemText primary={itemInfo.end} />
+          <ListItemText primary={`${itemInfo.end} UTC`} />
         </ListItem>
 
         <ListItem

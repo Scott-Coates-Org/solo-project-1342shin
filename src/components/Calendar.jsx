@@ -116,6 +116,10 @@ export const Calendar = () => {
         console.log(momentItems);
         setMomentItems(momentItems);
       }
+      else{
+        setMomentItems([]);
+
+      }
       setEventData(doc.data());
     });
   }, [auth]);
@@ -138,7 +142,7 @@ export const Calendar = () => {
         <h1>Event Name: {eventData.eventName}</h1>
         <h1>Event Holder: {eventData.ownerName}</h1>
         <br />
-        {user && <h1>Hi, {user.name}</h1>}
+        {user && <h1>Hi, {user.name}. Add your availability and share the link</h1>}
         <h1>Your Timezone : {timezone} </h1>
         <Timeline
           groups={eventData.eventData.groups}
@@ -173,7 +177,7 @@ export const Calendar = () => {
               );
               addGroup(eventId, user);
             }}>
-        <AddIcon fontSize="large"/>Add 
+        <AddIcon fontSize="large"/>Add Availability
       </Button>
             
           </div>

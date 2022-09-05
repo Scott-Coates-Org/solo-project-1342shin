@@ -60,15 +60,17 @@ function App() {
         <Link to="/expenses">Expenses</Link>
       </nav>*/}
       <div>
+        <h1>Timezone Planner</h1>
         <h2>
-          Timezone Planner helps you to plan events with people in different
+          Plan events with people in different
           timezones.
         </h2>
-        <h2>You can see everyone's time availability on the timeline,</h2>
+        <h2>You can see everyone's availability on their timeline,</h2>
         <h2>automatically converted to your timezone.</h2>
+        <h2>----------------------------------------------</h2>
       </div>
       <div>
-        <h3>* How to use the app</h3>
+        <h3>* How to use</h3>
         <h3>1. Make an event</h3>
         <h3>2. Add your availabitily on the timeline</h3>
         <h3>3. Share the link with other people</h3>
