@@ -18,7 +18,14 @@ import { removeTimeItem } from "../hooks/removeTimeItem";
 
 export function ClickedItemDialog(props) {
   const [itemInfo, setItemInfo] = useState({ start: "", end: "", group: "" });
-
+  
+  // if (props.user){
+  //   const userId=props.user.uid
+  // }
+  // else{
+  //   const userId=null
+  // }
+  //const userId= props.user||props.user.uid
   useEffect(() => {
     if (props.selected.itemId) {
       let arr = props.eventData.eventData.items.filter(
@@ -48,7 +55,7 @@ export function ClickedItemDialog(props) {
           <ListItemAvatar>To:</ListItemAvatar>
           <ListItemText primary={`${itemInfo.end}`} />
         </ListItem>
-        {itemInfo.group === props.userId && (
+        {props.user && (itemInfo.group === props.user.uid) && (
           <ListItem
             button
             onClick={() => {

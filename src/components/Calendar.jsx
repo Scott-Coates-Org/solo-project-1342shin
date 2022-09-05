@@ -145,8 +145,8 @@ export const Calendar = () => {
           <h1>Hi, {user.name}. Add your availability and share the link</h1>
         )}
         <h1>Your Timezone : {timezone} </h1>
-        <h2>(For Laptop: use trackpad to zoom in/out and scroll horizontally)</h2>
- <h2>(For Mouse: press Ctrl/Cmd + mouse wheel to zoom in/out. click and drag to scroll horizontally)</h2>
+        <h2>(For Laptop: Use trackpad to zoom in/out and scroll horizontally)</h2>
+ <h2>(For Desktop: Hold Control or Command + scroll mouse wheel to zoom in/out. Click and drag to scroll horizontally)</h2>
         <Timeline
           groups={eventData.eventData.groups}
           items={momentItems}
@@ -163,9 +163,9 @@ export const Calendar = () => {
           selected={selected}
           setSelected={setSelected}
           eventData={eventData}
-          userId={user.uid}
+          user={user}
         />
-        <div></div>
+
         <div>
           <div>
             <TimePicker label="from" value={startTime} setTime={setStartTime} />

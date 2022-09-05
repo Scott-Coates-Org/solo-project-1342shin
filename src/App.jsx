@@ -84,7 +84,7 @@ function App() {
         {user ? (
           <h1>Hi, {user.name}! This is your event list ↓</h1>
         ) : (
-          <h1>Sign in to make an event</h1>
+          <h1>Sign in to start an event</h1>
         )}
       </div>
 
