@@ -1,4 +1,4 @@
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { getDocs } from "firebase/firestore";
 
 export const loadEventsFromFirebase = async (q, setEvents, setEventsLoaded) => {
     setEvents([]);

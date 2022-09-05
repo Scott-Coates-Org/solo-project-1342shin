@@ -1,5 +1,6 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-c66648af7eb3fe8bc4f294546bfd86ef473780cde1dea487d3c4ff354943c9ae.svg)](https://classroom.github.com/online_ide?assignment_repo_id=8181109&assignment_repo_type=AssignmentRepo)
 # React Solo Project
+Plan events with people in different timezones. 
 website: 
 https://timezone-planner.web.app/
 
@@ -72,7 +73,7 @@ Meeting planner for people with different timezones.
 [V] Deploy app to production server. I suggest Firebase.
 App homepage must be publicly accessible.
 
-[ ] Whatever you chose as your technical component must be 10% complete.
+[V] Whatever you chose as your technical component must be 10% complete.
 
 -implement calendar with timeline selection.
 
@@ -81,13 +82,13 @@ App homepage must be publicly accessible.
 
 ### Sprint2
 
-[ ] Begin 1 advanced task
+[V] Begin 1 advanced task
 ex)
 Hook up database,
 Implement redux,
 Integrate with API,
 
-[ ] Whatever you chose as your technical component must be 40% complete.
+[V] Whatever you chose as your technical component must be 40% complete.
 - implement redux store for each user
 1. Sign in with google
 2. Request location
@@ -99,13 +100,12 @@ Integrate with API,
 -write store data to firebase
 
 ### Sprint3
-[ ] Complete 1 advanced task
+[V] Complete 1 advanced task
 
-[ ] Whatever you chose as your technical component must be 100% complete.
-8. Add meeting to google calendar
-   - finish CSS
+[V] Whatever you chose as your technical component must be 100% complete.
 
-[ ] Deploy app after PR merge
+
+[V] Deploy app after PR merge
 
 
 ## Project Overview

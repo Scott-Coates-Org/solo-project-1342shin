@@ -7,10 +7,7 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
-import PersonIcon from "@mui/icons-material/Person";
-import { blue } from "@mui/material/colors";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { Typography } from "@mui/material";
 import { useState } from "react";
 import moment from "moment";
 import { useEffect } from "react";
@@ -19,13 +16,6 @@ import { removeTimeItem } from "../hooks/removeTimeItem";
 export function ClickedItemDialog(props) {
   const [itemInfo, setItemInfo] = useState({ start: "", end: "", group: "" });
   
-  // if (props.user){
-  //   const userId=props.user.uid
-  // }
-  // else{
-  //   const userId=null
-  // }
-  //const userId= props.user||props.user.uid
   useEffect(() => {
     if (props.selected.itemId) {
       let arr = props.eventData.eventData.items.filter(

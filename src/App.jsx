@@ -3,7 +3,7 @@ import Login from "./components/login/Login";
 import { Link } from "react-router-dom";
 import { signOut, getAuth, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch,  } from "react-redux";
 import AddIcon from "@mui/icons-material/Add";
 import { login, logout } from "./redux/authSlice";
 import { db } from "./firebase/client";
@@ -13,9 +13,6 @@ import { loadEventsFromFirebase } from "./hooks/loadEventsFromFirebase";
 import { addEventToUser } from "./hooks/addEventToUser";
 import { addEventInfo } from "./hooks/addEventInfo";
 import { nanoid } from "nanoid";
-
-import Timeline from "react-calendar-timeline";
-// make sure you include the timeline stylesheet or the timeline will not be styled
 
 function App() {
   const [user, setUser] = useState(null);
@@ -54,11 +51,7 @@ function App() {
 
   return (
     <div className="App">
-      {/**  <h1>Landing page</h1>
-      <nav>
-        <Link to="/invoices">Invoices</Link> |{" "}
-        <Link to="/expenses">Expenses</Link>
-      </nav>*/}
+  
       <div>
         <h1>Timezone Planner</h1>
         <h2>
