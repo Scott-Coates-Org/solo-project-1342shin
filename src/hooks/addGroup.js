@@ -20,7 +20,7 @@ export const addGroup = async (eventId, user) => {
       { merge: true }
     );
 
-    console.log("Group added with username: ", user.userId);
+    //console.log("Group added with username: ", user.userId);
   } catch (e) {
     console.error("Error adding group: ", e);
   }

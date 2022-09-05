@@ -17,16 +17,22 @@ import { useEffect } from "react";
 import { removeTimeItem } from "../hooks/removeTimeItem";
 
 export function ClickedItemDialog(props) {
-  const [itemInfo, setItemInfo] = useState({ start: "", end: "" });
+  const [itemInfo, setItemInfo] = useState({ start: "", end: "", group: "" });
 
   useEffect(() => {
     if (props.selected.itemId) {
       let arr = props.eventData.eventData.items.filter(
         (item) => item.id === props.selected.itemId
       );
-      console.log(arr);
-      setItemInfo({ start: arr[0].start_time, end: arr[0].end_time });
-      console.log("eff");
+      //console.log(arr);
+      let start=moment(arr[0].start_time, "MMMM Do YYYY, h:mm:ss a Z").format("MMMM Do YYYY, h:mm:ss a")
+      let end=moment(arr[0].end_time, "MMMM Do YYYY, h:mm:ss a Z").format("MMMM Do YYYY, h:mm:ss a")
+      setItemInfo({
+        start: start,
+        end: end,
+        group: arr[0].group,
+      });
+      //console.log(itemInfo);
     }
   }, [props.selected]);
   return (
@@ -34,36 +40,36 @@ export function ClickedItemDialog(props) {
       <DialogTitle>Item Info</DialogTitle>
       <List sx={{ pt: 0 }}>
         <ListItem key={"start"}>
-          <ListItemAvatar>
-            From:
-          </ListItemAvatar>
-          <ListItemText primary={`${itemInfo.start} UTC`} />
+          <ListItemAvatar>From:</ListItemAvatar>
+          <ListItemText primary={`${itemInfo.start}`} />
         </ListItem>
 
         <ListItem key={"end"}>
-          <ListItemAvatar>
-            To:
-          </ListItemAvatar>
-          <ListItemText primary={`${itemInfo.end} UTC`} />
+          <ListItemAvatar>To:</ListItemAvatar>
+          <ListItemText primary={`${itemInfo.end}`} />
         </ListItem>
-
-        <ListItem
-          autoFocus
-          button
-          onClick={() => {
-            props.onClose(true);
-            console.log(props.eventData.eventId, props.selected.itemId);
-            removeTimeItem(props.eventData, props.selected.itemId,props.setSelected);
-            console.log("this item deleted:", props.selected);
-          }}
-        >
-          <ListItemAvatar>
-            <Avatar>
-              <DeleteForeverIcon />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary="Remove" />
-        </ListItem>
+        {itemInfo.group === props.userId && (
+          <ListItem
+            button
+            onClick={() => {
+              props.onClose(true);
+              //console.log(props.eventData.eventId, props.selected.itemId);
+              removeTimeItem(
+                props.eventData,
+                props.selected.itemId,
+                props.setSelected
+              );
+              //console.log("this item deleted:", props.selected);
+            }}
+          >
+            <ListItemAvatar>
+              <Avatar>
+                <DeleteForeverIcon />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary="Remove" />
+          </ListItem>
+        )}
       </List>
     </Dialog>
   );

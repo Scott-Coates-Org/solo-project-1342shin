@@ -17,8 +17,8 @@ export function TimePicker(props) {
         value={props.value}
         onChange={(newValue) => {
           props.setTime(newValue);
-          console.log(newValue)
-          console.log(props.value)
+          //console.log(newValue)
+          //console.log(props.value)
         }}
       />
     </LocalizationProvider></div>

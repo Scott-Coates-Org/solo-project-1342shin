@@ -31,7 +31,7 @@ export const removeTimeItem = async (eventData, timeId, setSelected) => {
       }),
     });
     setSelected({ itemId: '', e: '', time: '' })
-    console.log("Document removed with ID: ", eventDocRef);
+    //console.log("Document removed with ID: ", eventDocRef);
 
   } catch (e) {
     console.error("Error removing document: ", e);

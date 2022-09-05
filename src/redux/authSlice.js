@@ -17,7 +17,7 @@ export const authSlice = createSlice({
 			state.accessToken = action.payload.accessToken
 		},
 		logout: (state) => {
-			console.log(`${state.user} logged out`)
+			//console.log(`${state.user} logged out`)
 			state.user = ''
 			state.email = ''
 			state.accessToken = ''

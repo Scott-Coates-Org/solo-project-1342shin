@@ -32,7 +32,7 @@ function App() {
         // https://firebase.google.com/docs/reference/js/firebase.User
         const uid = user.uid;
         setUser({ name: user.displayName, email: user.email, uid: user.uid });
-        console.log(user.displayName);
+        //console.log(user.displayName);
         const q = query(collection(db, user.displayName));
         loadEventsFromFirebase(q, setEvents, setEventsLoaded);
         dispatch(
@@ -43,7 +43,7 @@ function App() {
           })
         );
       } else {
-        console.log("no user detected");
+        //console.log("no user detected");
         signOut(auth);
         setUser(null);
         setEvents([]);
@@ -121,7 +121,7 @@ function App() {
                 const q = query(collection(db, user.name));
                 loadEventsFromFirebase(q, setEvents, setEventsLoaded);
                 setNewEventName("");
-                console.log(newEventName);
+                //console.log(newEventName);
               }}
             >
               <AddIcon />

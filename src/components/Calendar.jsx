@@ -26,9 +26,10 @@ import Stack from "@mui/material/Stack";
 import { HomeButon } from "./HomeButton";
 import AddIcon from "@mui/icons-material/Add";
 
-import { IconButton, InputAdornment } from "@mui/material";
-
-
+/**
+ * item info time change
+ * 
+ */
 export const Calendar = () => {
   //const groups = useSelector(selectGroups);
   // const items = useSelector(selectItems);
@@ -48,7 +49,7 @@ export const Calendar = () => {
   const auth = getAuth();
 
   const onItemSelect = (itemId, e, time) => {
-    console.log(itemId, e, time);
+    //console.log(itemId, e, time);
     setOpen(true);
     setSelected({ itemId: itemId, e: e, time: time });
   };
@@ -59,7 +60,7 @@ export const Calendar = () => {
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
+        //console.log("Document data:", docSnap.data());
         let items = docSnap.data().eventData.items;
         if (items.length) {
           let momentItems = ConvertToMoment(items);
@@ -68,15 +69,15 @@ export const Calendar = () => {
         }
 
         setEventData(docSnap.data());
-        console.log(eventData);
+        //console.log(eventData);
         setStatus("ok");
       } else {
         // doc.data() will be undefined in this case
-        console.log("No such document!");
+        //console.log("No such document!");
         setStatus("na");
       }
     } catch (e) {
-      console.log(e);
+      //console.log(e);
     }
   };
   useEffect(() => {
@@ -98,27 +99,25 @@ export const Calendar = () => {
           })
         );
       } else {
-        console.log("no user detected");
+        //console.log("no user detected");
         signOut(auth);
         setUser(null);
         dispatch(logout());
       }
     });
-    console.log(eventData);
+    //console.log(eventData);
 
     //litsen for update
     const unsub = onSnapshot(doc(db, "events", eventId), (doc) => {
       let items = doc.data().eventData.items;
-      console.log(items);
+      //console.log(items);
       if (items.length) {
         let momentItems = ConvertToMoment(items);
         //addOnItemSelect(momentItems);
-        console.log(momentItems);
+        //console.log(momentItems);
         setMomentItems(momentItems);
-      }
-      else{
+      } else {
         setMomentItems([]);
-
       }
       setEventData(doc.data());
     });
@@ -142,8 +141,12 @@ export const Calendar = () => {
         <h1>Event Name: {eventData.eventName}</h1>
         <h1>Event Holder: {eventData.ownerName}</h1>
         <br />
-        {user && <h1>Hi, {user.name}. Add your availability and share the link</h1>}
+        {user && (
+          <h1>Hi, {user.name}. Add your availability and share the link</h1>
+        )}
         <h1>Your Timezone : {timezone} </h1>
+        <h2>(For Laptop: use trackpad to zoom in/out and scroll horizontally)</h2>
+ <h2>(For Mouse: press Ctrl/Cmd + mouse wheel to zoom in/out. click and drag to scroll horizontally)</h2>
         <Timeline
           groups={eventData.eventData.groups}
           items={momentItems}
@@ -160,26 +163,32 @@ export const Calendar = () => {
           selected={selected}
           setSelected={setSelected}
           eventData={eventData}
+          userId={user.uid}
         />
+        <div></div>
         <div>
           <div>
             <TimePicker label="from" value={startTime} setTime={setStartTime} />
             <TimePicker label="to" value={endTime} setTime={setEndTime} />
-            
-            <Button aria-label="add" color="secondary"  disabled={!user}
-            style={{ marginLeft: 30 }}
-            onClick={() => {
-              addTimeItem(
-                eventData.eventId,
-                user.uid,
-                startTime.format("MMMM Do YYYY, h:mm:ss a Z"),
-                endTime.format("MMMM Do YYYY, h:mm:ss a Z")
-              );
-              addGroup(eventId, user);
-            }}>
-        <AddIcon fontSize="large"/>Add Availability
-      </Button>
-            
+
+            <Button
+              aria-label="add"
+              color="secondary"
+              disabled={!user}
+              style={{ marginLeft: 30, marginBottom:30 }}
+              onClick={() => {
+                addTimeItem(
+                  eventData.eventId,
+                  user.uid,
+                  startTime.format("MMMM Do YYYY, h:mm:ss a Z"),
+                  endTime.format("MMMM Do YYYY, h:mm:ss a Z")
+                );
+                addGroup(eventId, user);
+              }}
+            >
+              <AddIcon fontSize="large" />
+              Add Availability
+            </Button>
           </div>
         </div>
       </div>
@@ -192,3 +201,4 @@ export const Calendar = () => {
       </div>
     );
 };
+

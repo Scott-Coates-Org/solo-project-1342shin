@@ -20,7 +20,7 @@ const Login = (props) => {
 					accessToken: user.user.accessToken,
 				}),
 			)
-			console.log(user)
+			//console.log(user)
 		}
 	}, [user, dispatch])
 

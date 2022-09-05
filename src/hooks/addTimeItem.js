@@ -13,7 +13,7 @@ export const addTimeItem = async (eventId, userId,startTime,endTime) => {
   try {
     const eventDocRef = doc(db, "events", eventId);
     // Atomically add a new region to the "regions" array field.
-    console.dir(startTime)
+    //console.log(startTime)
     await updateDoc(eventDocRef, {
       "eventData.items": arrayUnion({
         id: nanoid(),
@@ -23,7 +23,7 @@ export const addTimeItem = async (eventId, userId,startTime,endTime) => {
     
       }),
     });
-    console.log("Document written with ID: ", eventDocRef);
+    //console.log("Document written with ID: ", eventDocRef);
   } catch (e) {
     console.error("Error adding document: ", e);
   }
