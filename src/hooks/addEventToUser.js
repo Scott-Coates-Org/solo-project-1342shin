@@ -1,5 +1,5 @@
 import { doc, setDoc } from "firebase/firestore";
-import { db } from "./firebase/client";
+import { db } from "../firebase/client";
 
 export const addEventToUser = async (eventName, user, newEventId) => {
     // Add a new document in collection 

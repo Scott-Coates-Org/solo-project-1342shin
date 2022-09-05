@@ -1,6 +1,6 @@
 import { nanoid } from "@reduxjs/toolkit";
 import { doc, setDoc, arrayUnion, arrayRemove } from "firebase/firestore";
-import { db } from "./firebase/client";
+import { db } from "../firebase/client";
 
 // Create an initial document to update.
 

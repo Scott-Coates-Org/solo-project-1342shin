@@ -5,8 +5,6 @@ import { store } from "./redux/store";
 import "./index.css";
 import App from "./App";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Invoices from "./components/invoices";
-import Invoice from "./components/invoice";
 import { Calendar } from "./components/Calendar";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -17,9 +15,7 @@ root.render(
           <Route path="/" element={<App />} />
           <Route path=":eventId" element={<Calendar />} />
           
-          <Route path="invoices" element={<Invoices />}>
-            <Route path=":invoiceId" element={<Invoice />} />
-          </Route>
+    
           <Route
             path="*"
             element={

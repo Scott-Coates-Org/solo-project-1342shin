@@ -9,9 +9,7 @@ export const ConvertToMoment = (items) => {
       group: item.group,
       start_time: startTime,
       end_time: endTime,
-      itemProps: {
-        onItemSelect: null,
-      },
+      
     };
   });
   return momentItems;

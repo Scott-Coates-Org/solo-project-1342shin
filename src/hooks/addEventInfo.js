@@ -1,5 +1,5 @@
 import { doc, setDoc } from "firebase/firestore";
-import { db } from "./firebase/client";
+import { db } from "../firebase/client";
 
 export const addEventInfo = async (eventName, user, newEventId) => {
   console.log(newEventId)

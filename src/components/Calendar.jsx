@@ -14,11 +14,20 @@ import { signOut } from "firebase/auth";
 import { onSnapshot } from "firebase/firestore";
 import moment from "moment";
 import React from "react";
-import { addTimeItem } from "../addTimeItem";
+import { addTimeItem } from "../hooks/addTimeItem";
 import Login from "./login/Login";
-import { addGroup } from "../addGroup";
-import { ConvertToMoment } from "../convertToMoment";
-import { addOnItemSelect } from "../addOnItemSelect";
+import { addGroup } from "../hooks/addGroup";
+import { ConvertToMoment } from "../hooks/convertToMoment";
+import { addOnItemSelect } from "../hooks/addOnItemSelect";
+import { ClickedItemDialog } from "./ClickedItemDialog";
+import Button from "@mui/material/Button";
+import HomeIcon from "@mui/icons-material/Home";
+import Stack from "@mui/material/Stack";
+import { HomeButon } from "./HomeButton";
+import AddIcon from "@mui/icons-material/Add";
+
+import { IconButton, InputAdornment } from "@mui/material";
+
 
 export const Calendar = () => {
   //const groups = useSelector(selectGroups);
@@ -29,13 +38,20 @@ export const Calendar = () => {
   const [startTime, setStartTime] = React.useState(moment());
   const [endTime, setEndTime] = React.useState(moment());
   const [user, setUser] = useState(null);
-  const [timezone, setTimezone] = useState('');
-
+  const [timezone, setTimezone] = useState("");
+  const [open, setOpen] = React.useState(false);
+  const [selected, setSelected] = useState({ itemId: "", e: "", time: "" });
   const dispatch = useDispatch();
   const authState = useSelector(selectAuth);
   let params = useParams();
   const eventId = params.eventId;
   const auth = getAuth();
+
+  const onItemSelect = (itemId, e, time) => {
+    console.log(itemId, e, time);
+    setOpen(true);
+    setSelected({ itemId: itemId, e: e, time: time });
+  };
 
   const checkDocument = async () => {
     try {
@@ -47,7 +63,7 @@ export const Calendar = () => {
         let items = docSnap.data().eventData.items;
         if (items.length) {
           let momentItems = ConvertToMoment(items);
-          addOnItemSelect(momentItems)
+          //addOnItemSelect(momentItems);
           setMomentItems(momentItems);
         }
 
@@ -65,7 +81,7 @@ export const Calendar = () => {
   };
   useEffect(() => {
     checkDocument();
-    setTimezone( Intl.DateTimeFormat().resolvedOptions().timeZone)
+    setTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -81,8 +97,6 @@ export const Calendar = () => {
             accessToken: user.accessToken,
           })
         );
-
-        // addGroup(eventId,user)
       } else {
         console.log("no user detected");
         signOut(auth);
@@ -95,11 +109,11 @@ export const Calendar = () => {
     //litsen for update
     const unsub = onSnapshot(doc(db, "events", eventId), (doc) => {
       let items = doc.data().eventData.items;
-      console.log(items)
+      console.log(items);
       if (items.length) {
         let momentItems = ConvertToMoment(items);
-        addOnItemSelect(momentItems)
-        console.log(momentItems)
+        //addOnItemSelect(momentItems);
+        console.log(momentItems);
         setMomentItems(momentItems);
       }
       setEventData(doc.data());
@@ -108,44 +122,60 @@ export const Calendar = () => {
 
   if (status == "loading")
     return (
-      <div>
-        <Link to="/">HOME</Link>
+      <div style={{ margin: 20 }}>
+        <HomeButon />
+
         <h1>loading..</h1>
       </div>
     );
   else if (status == "ok")
     return (
       <div>
-        <Link to="/">HOME</Link>
+        <div style={{ margin: 20 }}>
+          <HomeButon />
+        </div>
         <Login userProp={user} />
         <h1>Event Name: {eventData.eventName}</h1>
-        <h1>Event Holder: {eventData.ownerName}</h1><br/>
-        {user && <h1>Hi "{user.name}"</h1>}
-    <h1>your Timezone : {timezone} </h1>  
+        <h1>Event Holder: {eventData.ownerName}</h1>
+        <br />
+        {user && <h1>Hi, {user.name}</h1>}
+        <h1>Your Timezone : {timezone} </h1>
         <Timeline
           groups={eventData.eventData.groups}
           items={momentItems}
           defaultTimeStart={moment().add(-12, "hour")}
           defaultTimeEnd={moment().add(12, "hour")}
+          onItemSelect={onItemSelect}
+        />
+
+        <ClickedItemDialog
+          onClose={() => {
+            setOpen(false);
+          }}
+          open={open}
+          selected={selected}
+          setSelected={setSelected}
+          eventData={eventData}
         />
         <div>
           <div>
             <TimePicker label="from" value={startTime} setTime={setStartTime} />
             <TimePicker label="to" value={endTime} setTime={setEndTime} />
-            <button
-              disabled={!user}
-              onClick={() => {
-                addTimeItem(
-                  eventData.eventId,
-                  user.uid,
-                  startTime.format("MMMM Do YYYY, h:mm:ss a Z"),
-                  endTime.format("MMMM Do YYYY, h:mm:ss a Z")
-                );
-                addGroup(eventId, user);
-              }}
-            >
-              Add
-            </button>
+            
+            <Button aria-label="add" color="secondary"  disabled={!user}
+            style={{ marginLeft: 30 }}
+            onClick={() => {
+              addTimeItem(
+                eventData.eventId,
+                user.uid,
+                startTime.format("MMMM Do YYYY, h:mm:ss a Z"),
+                endTime.format("MMMM Do YYYY, h:mm:ss a Z")
+              );
+              addGroup(eventId, user);
+            }}>
+        <AddIcon fontSize="large"/>Add 
+      </Button>
+            
           </div>
         </div>
       </div>
@@ -153,7 +183,7 @@ export const Calendar = () => {
   else
     return (
       <div>
-        <Link to="/">HOME</Link>
+        <HomeButon />
         <h1>wrong page</h1>
       </div>
     );

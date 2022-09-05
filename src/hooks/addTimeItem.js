@@ -5,7 +5,7 @@ import {
   arrayUnion,
   arrayRemove,
 } from "firebase/firestore";
-import { db } from "./firebase/client";
+import { db } from "../firebase/client";
 
 // Create an initial document to update.
 
@@ -20,9 +20,7 @@ export const addTimeItem = async (eventId, userId,startTime,endTime) => {
         group: userId,
         start_time: startTime,
         end_time: endTime,
-        itemProps:{
-          onItemSelect:null,
-        }
+    
       }),
     });
     console.log("Document written with ID: ", eventDocRef);
