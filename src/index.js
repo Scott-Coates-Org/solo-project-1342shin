@@ -6,6 +6,7 @@ import "./index.css";
 import App from "./App";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Calendar } from "./components/Calendar";
+import { Demo } from "./components/Demo";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -13,8 +14,10 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="demo-path" element={<Demo />} />
         <Route path=":eventId" element={<Calendar />} />
-
+        
+        
         <Route
           path="*"
           element={

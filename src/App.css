@@ -1,3 +1,201 @@
+#l1{
+  color:#ef5593;
+  
+}#l2{
+   color:#ef5593;
+   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}#l4{
+}
+#howto{
+  font-family: Arial, Helvetica, sans-serif;
+}
+.link{
+display:block;
+ margin: 10px;
+ font-size: large;
+}
+#plus{
+  width:40px;height:40px;
+}
+.home {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Raleway";
+}
+
+.home-top1 {
+  position: absolute;
+  top: 3px;
+  left: 10px;
+}
+.home-top1 > img {
+  height: 90px;
+}
+
+
+@media (max-width: 800px) {
+
+  .home-top1>img{
+    height:6vh;
+  }
+}
+
+.home-top2 {
+  position: absolute;
+  top: 3px;
+  right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-background-image {
+  height: 100vh;
+  width: 100vw;
+  object-fit: cover;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.home-box {
+  display: flex;
+  margin-top: 50px;
+  align-items: center;
+  margin-bottom: 10vh;
+  text-align: center;
+ 
+}
+
+@media (max-width: 800px) {
+  .home-box {
+    font-size: 2vw;
+    flex-direction: column;
+  }
+  .home-left {
+    display: none;
+  }
+}
+
+.home-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  font-size: 1rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin: 20px;
+  max-width: 500px;
+}
+
+@media (max-width: 800px) {
+
+  .home-left {
+    display: none;
+  }
+}
+
+.home-right {
+  background-color: rgb(236, 236, 236);
+  border-radius: 10px 10px 10px 10px;
+  height: 70vh;
+  width: 40vw;
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+}
+@media (max-width: 800px) {
+
+  .home-right{
+    width:70vw;
+  }
+}
+
+
+#home-intro1 {
+  font-size: 200%;
+  color: rgb(67, 47, 168);
+  font-weight: bold;
+}
+
+#home-intro2 {
+  font-size: 400%;
+  border-color: rgb(71, 57, 198);
+}
+#home-intro3 {
+  font-size: 400%;
+  color: rgb(172, 169, 166);
+}
+
+#arrows-link {
+  position: absolute;
+
+  bottom: 5%;
+}
+
+.arrows {
+  width: 60px;
+  height: 75px;
+}
+.arrows path {
+  stroke: #2994d1;
+  fill: transparent;
+  stroke-width: 1px;
+  animation: arrow 2s infinite;
+  -webkit-animation: arrow 2s infinite;
+}
+
+@keyframes arrow {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes arrow /*Safari and Chrome*/ {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.arrows path.a1 {
+  animation-delay: -1s;
+  -webkit-animation-delay: -1s;
+}
+
+.arrows path.a2 {
+  animation-delay: -0.5s;
+  -webkit-animation-delay: -0.5s;
+}
+
+.arrows path.a3 {
+  animation-delay: 0s;
+  -webkit-animation-delay: 0s;
+}
+
 .App {
   text-align: center;
 }

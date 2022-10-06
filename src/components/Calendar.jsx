@@ -7,7 +7,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, collection, addDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase/client";
 import { useEffect, useState } from "react";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { login, logout, selectAuth } from "../redux/authSlice";
 import { signOut } from "firebase/auth";
 import { onSnapshot } from "firebase/firestore";
@@ -21,6 +21,8 @@ import { ClickedItemDialog } from "./ClickedItemDialog";
 import Button from "@mui/material/Button";
 import { HomeButon } from "./HomeButton";
 import AddIcon from "@mui/icons-material/Add";
+import "./calendar.css";
+import background from "../assets/background.jpg";
 
 export const Calendar = () => {
   const [status, setStatus] = useState("loading");
@@ -121,61 +123,80 @@ export const Calendar = () => {
   else if (status == "ok")
     return (
       <div>
-        <div style={{ margin: 20 }}>
-          <HomeButon />
-        </div>
-        <Login userProp={user} />
-        <h1>Event Name: {eventData.eventName}</h1>
-        <h1>Event Holder: {eventData.ownerName}</h1>
-        <br />
-        {user && (
-          <h1>Hi, {user.name}. Add your availability and share the link</h1>
-        )}
-        <h1>Your Timezone : {timezone} </h1>
-        <h2>(For Laptop: Use trackpad to zoom in/out and scroll horizontally)</h2>
- <h2>(For Desktop: Hold Control or Command + scroll mouse wheel to zoom in/out. Click and drag to scroll horizontally)</h2>
-        <Timeline
-          groups={eventData.eventData.groups}
-          items={momentItems}
-          defaultTimeStart={moment().add(-12, "hour")}
-          defaultTimeEnd={moment().add(12, "hour")}
-          onItemSelect={onItemSelect}
-        />
+        <img className="home-background-image" src={background} />
+        <div id="calendar">
+          <div className="calendar-top">
+            <HomeButon className="homebutton" />
 
-        <ClickedItemDialog
-          onClose={() => {
-            setOpen(false);
-          }}
-          open={open}
-          selected={selected}
-          setSelected={setSelected}
-          eventData={eventData}
-          user={user}
-        />
+            <Login id="login" userProp={user} />
+          </div>
+          <h1 id="title">
+            '{eventData.eventName}' by {eventData.ownerName}
+          </h1>
 
-        <div>
+          {user && (
+            <h1 id="hi">
+              Hi, {user.name}! Add your availability and share the link with
+              other people.
+            </h1>
+          )}
+          <h2>Your Timezone : {timezone} </h2>
+
+          <Timeline
+            groups={eventData.eventData.groups}
+            items={momentItems}
+            defaultTimeStart={moment().add(-12, "hour")}
+            defaultTimeEnd={moment().add(12, "hour")}
+            onItemSelect={onItemSelect}
+          />
+
+          <ClickedItemDialog
+            onClose={() => {
+              setOpen(false);
+            }}
+            open={open}
+            selected={selected}
+            setSelected={setSelected}
+            eventData={eventData}
+            user={user}
+          />
+
           <div>
-            <TimePicker label="from" value={startTime} setTime={setStartTime} />
-            <TimePicker label="to" value={endTime} setTime={setEndTime} />
+            <div id="timewrap">
+              <TimePicker
+                label="from"
+                value={startTime}
+                setTime={setStartTime}
+              />
+              <TimePicker label="to" value={endTime} setTime={setEndTime} />
 
-            <Button
-              aria-label="add"
-              color="secondary"
-              disabled={!user}
-              style={{ marginLeft: 30, marginBottom:30 }}
-              onClick={() => {
-                addTimeItem(
-                  eventData.eventId,
-                  user.uid,
-                  startTime.format("MMMM Do YYYY, h:mm:ss a Z"),
-                  endTime.format("MMMM Do YYYY, h:mm:ss a Z")
-                );
-                addGroup(eventId, user);
-              }}
-            >
-              <AddIcon fontSize="large" />
-              Add Availability
-            </Button>
+              <Button
+                aria-label="add"
+                color="secondary"
+                disabled={!user}
+                variant='outlined'
+                style={{}}
+                onClick={() => {
+                  addTimeItem(
+                    eventData.eventId,
+                    user.uid,
+                    startTime.format("MMMM Do YYYY, h:mm:ss a Z"),
+                    endTime.format("MMMM Do YYYY, h:mm:ss a Z")
+                  );
+                  addGroup(eventId, user);
+                }}
+              >
+                <AddIcon fontSize="large" />
+                Add Availability
+              </Button>
+            </div><div id='zoom'>
+            <h2>
+              (For Laptop: Use trackpad to zoom in/out and scroll horizontally)
+            </h2>
+            <h2>
+              (For Desktop: Hold Control or Command + scroll mouse wheel to zoom
+              in/out. Click and drag to scroll horizontally)
+            </h2></div>
           </div>
         </div>
       </div>
@@ -188,4 +209,3 @@ export const Calendar = () => {
       </div>
     );
 };
-

@@ -1,0 +1,49 @@
+.calendar-top {
+  display: flex;
+  padding: 10px;
+}
+@media (max-width: 800px) {
+
+  #zoom {
+    display: none;
+  }
+}
+
+#title {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    color:#ef5593;
+}
+#hi{
+
+}
+
+#calendar{
+    padding:15px
+}
+.home-background-image {
+  height: 100vh;
+  width: 100vw;
+  object-fit: cover;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.homebutton {
+  margin: 10px;
+}
+
+#login {
+  margin-left: 10px;
+}
+
+#timewrap {
+  display: flex;
+  align-items: center;
+  margin: 20px;
+}
+#timewrap>* {
+ 
+  margin: 10px;
+}

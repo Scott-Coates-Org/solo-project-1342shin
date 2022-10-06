@@ -8,7 +8,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 export function TimePicker(props) {
 
   return (
-    <div style={{ margin: 20 }}>
+    <div >
     <LocalizationProvider dateAdapter={AdapterMoment}>
       <DateTimePicker
         renderInput={(props) => <TextField {...props} />}
